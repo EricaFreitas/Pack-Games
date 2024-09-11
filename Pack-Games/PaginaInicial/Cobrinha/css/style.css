@@ -1,0 +1,160 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppings", sans-serif;
+}
+
+body {
+    background-color: #151414;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+}
+
+canvas {
+    background-color: #151414;
+}
+
+.pontuacao {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.8rem;
+}
+
+.pontuacao--valor {
+    font-weight: 700;
+    font-size: 4.5rem;
+    display: block;
+    margin-top: -10px;
+}
+
+.menu-screen {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+}
+
+.game-over {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 3rem;
+}
+
+.pontuacao-final {
+    font-weight: 500;
+    font-size: 1.5rem;
+    display: block;
+}
+
+.botao-play {
+    border: none;
+    border-radius: 100px;
+    padding: 10px 15px 10px 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.botao-voltar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #004f0c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.botao-voltar:hover {
+    background-color: #003a07;
+}
+
+@media (max-width: 600px) {
+    .botao-voltar {
+        font-size: 0.8rem;
+        padding: 8px 16px;
+    }
+}
+
+.copyright {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 0.8rem;
+    color: #ccc;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+    z-index: 2;
+}
+
+.copyright a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.copyright a:hover {
+    text-decoration: underline;
+}
+
+.botao-mute, .botao-historia {
+    position: absolute;
+    right: 10px;
+    background-color: #004f0c;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.botao-mute {
+    top: 10px;
+}
+
+.botao-historia {
+    top: 10px;
+    right: 60px;
+}
+
+.botao-mute:hover, .botao-historia:hover {
+    background-color: #003a07;
+}
+
+@media (max-width: 600px) {
+    .botao-mute, .botao-historia {
+        padding: 8px;
+        font-size: 1rem;
+    }
+
+    .botao-historia {
+        top: 40px;
+    }
+}
+
+a {
+    text-decoration: none;
+}
