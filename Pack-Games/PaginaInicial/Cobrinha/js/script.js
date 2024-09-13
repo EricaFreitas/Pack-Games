@@ -1,248 +1,259 @@
-const canvas = document.querySelector("canvas")
-
-const contexto = canvas.getContext("2d") 
-
-const pontuacao = document.querySelector(".pontuacao--valor") 
-
-const pontuacaoFinal = document.querySelector(".pontuacao-final > span") 
-
-const menu = document.querySelector(".menu-screen")
-
-const botaoPlay = document.querySelector(".botao-play")
-
-const audio = new Audio("./assets/audio.mp3") 
-const audioFundo = new Audio("./assets/audioFundo.mp3")
+const canvas = document.querySelector("canvas");
+const contexto = canvas.getContext("2d");
+const pontuacao = document.querySelector(".pontuacao--valor");
+const pontuacaoFinal = document.querySelector(".pontuacao-final > span");
+const menu = document.querySelector(".menu-screen");
+const modoJogoDiv = document.querySelector(".modo-jogo");
+const botaoSingle = document.querySelector(".botao-single");
+const botaoMultiplayer = document.querySelector(".botao-multiplayer");
+const audio = new Audio("./assets/audio.mp3");
+const audioFundo = new Audio("./assets/audioFundo.mp3");
 const botaoMute = document.querySelector(".botao-mute");
+const instrucoes = document.querySelector(".instrucoes");
 
-let audioMuted = false;
+let audioMuted = JSON.parse(localStorage.getItem('audioMuted')) || false;
+audio.muted = audioMuted;
+audioFundo.muted = audioMuted;
+botaoMute.innerText = audioMuted ? "🔇" : "🔊";
+
 botaoMute.addEventListener("click", () => {
     audioMuted = !audioMuted;
-
-    if (audioMuted) {
-        audio.muted = true;
-        audioFundo.muted = true;
-        botaoMute.innerText = "🔇";
-    } else {
-        audio.muted = false;
-        audioFundo.muted = false;
-        botaoMute.innerText = "🔊";
-    }
+    audio.muted = audioMuted;
+    audioFundo.muted = audioMuted;
+    botaoMute.innerText = audioMuted ? "🔇" : "🔊";
+    localStorage.setItem('audioMuted', JSON.stringify(audioMuted));
 });
 
-const tamanho = 30
+const tamanho = 30;
+const posicaoInicial = { x: 270, y: 240 };
+let cobra = [posicaoInicial];
 
-const posicaoInicial = { x: 270, y: 240 }
-
-let cobra = [posicaoInicial] 
-
-const recorde = localStorage.getItem('recorde') || 0; /*Recupera o recorde do armazenamento local. Se nenhum recorde existir, ele assume o valor 0*/
-const recordeElemento = document.createElement('div'); /*Cria um novo elemento div no DOM*/
-recordeElemento.classList.add('recorde'); /*Adiciona a classe CSS ‘recorde’ ao novo elemento div*/
+const recorde = localStorage.getItem('recorde') || 0;
+const recordeElemento = document.createElement('div');
+recordeElemento.classList.add('recorde');
 recordeElemento.innerText = `Recorde: ${recorde}`;
-document.body.insertBefore(recordeElemento, canvas); /*Insere o elemento div antes do elemento canvas no corpo do HTML*/
+document.body.insertBefore(recordeElemento, canvas);
 
 const adicionarPontuacao = () => {
-    pontuacao.innerText = (+pontuacao.innerText + 10).toString().padStart(2, '0');/*extrai a pontuação atual do elemento com o ID pontuacao e convert para um número inteiro, adc 10 ao valor converte pra string e garante que ele tenha pelo menos 2 dígitos, preenchendo com zeros à esquerda, se necessário*/
-}
+    pontuacao.innerText = (+pontuacao.innerText + 10).toString().padStart(2, '0');
+};
 
-const numeroAleatorio = (min, max) => { 
-    return Math.round(Math.random() * (max - min) + min) 
-}
+const numeroAleatorio = (min, max) => {
+    return Math.round(Math.random() * (max - min) + min);
+};
 
-const posicaoAleatoria = () => { 
-    const numero = numeroAleatorio(0, canvas.width - tamanho) 
-    return Math.round(numero / 30) * 30
-}
+const posicaoAleatoria = () => {
+    const numero = numeroAleatorio(0, canvas.width - tamanho);
+    return Math.round(numero / 30) * 30;
+};
 
-const corAleatoria = () => { 
-    const vermelho = numeroAleatorio(0, 255) 
-    const verde = numeroAleatorio(0, 255)
-    const azul = numeroAleatorio(0, 255)
+const corAleatoria = () => {
+    const vermelho = numeroAleatorio(0, 255);
+    const verde = numeroAleatorio(0, 255);
+    const azul = numeroAleatorio(0, 255);
+    return `rgb(${vermelho}, ${verde}, ${azul})`;
+};
 
-    return `rgb(${vermelho}, ${verde}, ${azul})`
-}
-
-const comida = { 
+const comida = {
     x: posicaoAleatoria(),
     y: posicaoAleatoria(),
     cor: corAleatoria()
-}
+};
 
-let direcao, loopId
+let direcao, ultimaDirecao, loopId;
+let modoJogo = 'single';
 
 const desenhoComida = () => {
-    const { x, y, cor } = comida 
-
-    contexto.shadowColor = cor
-    contexto.shadowBlur = 6
-    contexto.fillStyle = cor
-    contexto.fillRect(x, y, tamanho, tamanho)
-    contexto.shadowBlur = 0
-}
+    const { x, y, cor } = comida;
+    contexto.shadowColor = cor;
+    contexto.shadowBlur = 6;
+    contexto.fillStyle = cor;
+    contexto.fillRect(x, y, tamanho, tamanho);
+    contexto.shadowBlur = 0;
+};
 
 const desenhoCobra = () => {
     cobra.forEach((posicao, index) => {
         if (index == cobra.length - 1) {
-            contexto.fillStyle = "#008000"
-            contexto.fillRect(posicao.x, posicao.y, tamanho, tamanho)
+            contexto.fillStyle = "#008000";
+            contexto.fillRect(posicao.x, posicao.y, tamanho, tamanho);
         } else {
-            contexto.fillStyle = "#006400"
-            contexto.fillRect(posicao.x, posicao.y, tamanho, tamanho)
-            contexto.strokeStyle = '#008000'
-            contexto.lineWidth = 1;
-            contexto.strokeRect(posicao.x, posicao.y, tamanho, tamanho)
+            contexto.fillStyle = "#006400";
+            contexto.fillRect(posicao.x, posicao.y, tamanho, tamanho);
+            contexto.strokeStyle = '#008000';
+            contexto.lineWidth = 2;
+            contexto.strokeRect(posicao.x, posicao.y, tamanho, tamanho);
         }
-
-    })
-}
+    });
+};
 
 document.addEventListener("keydown", ({ key }) => {
-    if (key == "ArrowRight" && direcao != "esquerda") {
-        direcao = "direita"
+    if (modoJogo === 'single') {
+        if ((key == "ArrowRight") && ultimaDirecao != "esquerda") {
+            direcao = "direita";
+        }
+        if ((key == "ArrowLeft") && ultimaDirecao != "direita") {
+            direcao = "esquerda";
+        }
+        if ((key == "ArrowDown") && ultimaDirecao != "cima") {
+            direcao = "baixo";
+        }
+        if ((key == "ArrowUp") && ultimaDirecao != "baixo") {
+            direcao = "cima";
+        }
+    } else if (modoJogo === 'multiplayer') {
+        if ((key == "ArrowRight") && ultimaDirecao != "esquerda") {
+            direcao = "direita";
+        }
+        if ((key == "ArrowLeft") && ultimaDirecao != "direita") {
+            direcao = "esquerda";
+        }
+        if ((key == "w") && ultimaDirecao != "baixo") {
+            direcao = "cima";
+        }
+        if ((key == "s") && ultimaDirecao != "cima") {
+            direcao = "baixo";
+        }
     }
 
-    if (key == "ArrowLeft" && direcao != "direita") {
-        direcao = "esquerda"
+    if (key == "m" || key == "M") {
+        audioMuted = !audioMuted;
+        audio.muted = audioMuted;
+        audioFundo.muted = audioMuted;
+        botaoMute.innerText = audioMuted ? "🔇" : "🔊";
+        localStorage.setItem('audioMuted', JSON.stringify(audioMuted));
     }
-
-    if (key == "ArrowDown" && direcao != "cima") {
-        direcao = "baixo"
+    if (key == "Escape") {
+        window.location.href = "../inicio.html";
     }
-
-    if (key == "ArrowUp" && direcao != "baixo") {
-        direcao = "cima"
+    if (key == "h" || key == "H") {
+        window.location.href = "historiaCobrinha.html";
     }
-
-    if (key == "d" && direcao != "esquerda") {
-        direcao = "direita"
-    }
-
-    if (key == "a" && direcao != "direita") {
-        direcao = "esquerda"
-    }
-
-    if (key == "s" && direcao != "cima") {
-        direcao = "baixo"
-    }
-
-    if (key == "w" && direcao != "baixo") {
-        direcao = "cima"
-    }
-})
+});
 
 const moverCobra = () => {
-    if (!jogoEmAndamento) return
-    if (!direcao) return
+    if (!jogoEmAndamento) return;
+    if (!direcao) return;
 
-    const cabeca = cobra[cobra.length - 1]
+    const cabeca = cobra[cobra.length - 1];
 
     if (direcao == "direita") {
-        cobra.push({ x: cabeca.x + tamanho, y: cabeca.y })
+        cobra.push({ x: cabeca.x + tamanho, y: cabeca.y });
     }
-
     if (direcao == "esquerda") {
-        cobra.push({ x: cabeca.x - tamanho, y: cabeca.y })
+        cobra.push({ x: cabeca.x - tamanho, y: cabeca.y });
     }
-
     if (direcao == "baixo") {
-        cobra.push({ x: cabeca.x, y: cabeca.y + tamanho })
+        cobra.push({ x: cabeca.x, y: cabeca.y + tamanho });
     }
-
     if (direcao == "cima") {
-        cobra.push({ x: cabeca.x, y: cabeca.y - tamanho })
+        cobra.push({ x: cabeca.x, y: cabeca.y - tamanho });
     }
 
-    cobra.shift()
-}
+    cobra.shift();
+    ultimaDirecao = direcao;
+};
 
 const checarComida = () => {
-    const cabeca = cobra[cobra.length - 1]
+    const cabeca = cobra[cobra.length - 1];
 
     if (cabeca.x == comida.x && cabeca.y == comida.y) {
-        adicionarPontuacao()
-        cobra.push(cabeca)
-        audio.play()
+        adicionarPontuacao();
+        cobra.push(cabeca);
+        audio.play();
 
-        let x = posicaoAleatoria()
-        let y = posicaoAleatoria()
+        let x = posicaoAleatoria();
+        let y = posicaoAleatoria();
 
         while (cobra.find((posicao) => posicao.x == x && posicao.y == y)) {
-            x = posicaoAleatoria()
-            y = posicaoAleatoria()
+            x = posicaoAleatoria();
+            y = posicaoAleatoria();
         }
 
-        comida.x = x
-        comida.y = y
-        comida.cor = corAleatoria()
+        comida.x = x;
+        comida.y = y;
+        comida.cor = corAleatoria();
     }
-}
+};
 
 const checarColisao = () => {
-    const cabeca = cobra[cobra.length - 1]
-    const canvasLimite = canvas.width - tamanho
-    const pescocoIndex = cobra.length - 2
+    const cabeca = cobra[cobra.length - 1];
+    const canvasLimite = canvas.width - tamanho;
+    const pescocoIndex = cobra.length - 2;
 
     const paredeColisao =
-        cabeca.x < 0 || cabeca.x > canvasLimite || cabeca.y < 0 || cabeca.y > canvasLimite
+        cabeca.x < 0 || cabeca.x > canvasLimite || cabeca.y < 0 || cabeca.y > canvasLimite;
 
     const autoColisao = cobra.find((posicao, index) => {
-        return index < pescocoIndex && posicao.x == cabeca.x && posicao.y == cabeca.y
-    })
+        return index < pescocoIndex && posicao.x == cabeca.x && posicao.y == cabeca.y;
+    });
 
     if (paredeColisao || autoColisao) {
-        gameOver()
+        gameOver();
     }
-}
+};
 
-let jogoEmAndamento = true
+let jogoEmAndamento = true;
 
 const gameOver = () => {
-    direcao = undefined
+    direcao = undefined;
+    jogoEmAndamento = false;
+    menu.style.display = "flex";
+    modoJogoDiv.style.display = "flex";
+    pontuacaoFinal.innerText = pontuacao.innerText;
 
-    jogoEmAndamento = false
-    menu.style.display = "flex"
-    pontuacaoFinal.innerText = pontuacao.innerText
-
-    const pontuacaoAtual = parseInt(pontuacao.innerText, 10); /*extrai a pontuação atual do elemento com o ID pontuacao e convert para um número inteiro*/
-    if (pontuacaoAtual > parseInt(recorde, 10)) { /*verifica se a pontuação atual é maior do que o recorde armazenado, se for verdade ele atualiza o recorde com a pontuação atual*/
-        localStorage.setItem('recorde', pontuacaoAtual);/*armazena a pontuação atual como o novo recorde no armazenamento local. O armazenamento local permite que você armazene dados persistentemente no navegador do usuário*/
+    const pontuacaoAtual = parseInt(pontuacao.innerText, 10);
+    const recordeAtual = parseInt(localStorage.getItem('recorde'), 10) || 0;
+    if (pontuacaoAtual > recordeAtual) {
+        localStorage.setItem('recorde', pontuacaoAtual);
         recordeElemento.innerText = `Recorde: ${pontuacaoAtual}`;
+    } else {
+        recordeElemento.innerText = `Recorde: ${recordeAtual}`;
     }
 
-    canvas.style.filter = "blur(2px)"
-}
+    canvas.style.filter = "blur(2px)";
+};
 
 const reiniciarJogo = () => {
-    pontuacao.innerText = "00"
-    menu.style.display = "none"
-    canvas.style.filter = "none"
-    cobra = [posicaoInicial]
-    jogoEmAndamento = true
-}
+    pontuacao.innerText = "00";
+    menu.style.display = "none";
+    modoJogoDiv.style.display = "none";
+    canvas.style.filter = "none";
+    cobra = [posicaoInicial];
+    jogoEmAndamento = true;
+};
 
 const gameLoop = () => {
-    clearInterval(loopId)
+    clearInterval(loopId);
 
-    contexto.clearRect(0, 0, 600, 600)
-    desenhoComida()
-    moverCobra()
-    desenhoCobra()
-    checarComida()
-    checarColisao()
-    audioFundo.play()
+    contexto.clearRect(0, 0, 600, 600);
+    desenhoComida();
+    moverCobra();
+    desenhoCobra();
+    checarComida();
+    checarColisao();
+    audioFundo.play();
 
     loopId = setTimeout(() => {
-        gameLoop()
-    }, 200)
-}
+        gameLoop();
+    }, 150);
+};
 
-gameLoop()
+botaoSingle.addEventListener("click", () => {
+    modoJogo = 'single';
+    instrucoes.innerText = "Use as setas para mover a cobra.";
+    instrucoes.style.display = 'block';
+    reiniciarJogo();
+    gameLoop();
+});
 
-botaoPlay.addEventListener("click", () => {
-    pontuacao.innerText = "00"
-    menu.style.display = "none"
-    canvas.style.filter = "none"
-    reiniciarJogo()
+botaoMultiplayer.addEventListener("click", () => {
+    modoJogo = 'multiplayer';
+    instrucoes.innerText = "Jogador 1: Movimentos: Cima -> W / Baixo -> S. \n Jogador 2: Movimentos = Direita -> Seta Direita / Esquerda -> Seta Esquerda \n Trabalhem juntos para conquistar uma grande pontuação!" ;
+    instrucoes.style.display = 'block';
+    reiniciarJogo();
+    gameLoop();
+});
 
-    cobra = [posicaoInicial]
-})
+menu.style.display = "none";
+instrucoes.style.display = "none";

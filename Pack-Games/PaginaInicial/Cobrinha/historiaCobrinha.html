@@ -11,7 +11,7 @@
 </head>
 <body>
 
-    <button class="botao-voltar" onclick="window.history.back()">Voltar</button>
+    <button class="botao-voltar" onclick="window.history.back()" title="Pressione 'ESC' para sair">Voltar</button>
     
     <div class="historia-container">
         <p>
@@ -37,5 +37,14 @@
         </p>
         <a href="https://universoretro.com.br/snake-conheca-a-historia-do-jogo-que-revolucionou-o-mundo-mobile/" target="_blank" class="saiba-mais">Saiba Mais</a>
     </div>
+
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                window.location.href = 'cobrinha.html';
+            }
+        });
+    </script>
+
 </body>
 </html>

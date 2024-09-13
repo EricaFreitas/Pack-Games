@@ -4,7 +4,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppings", sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -55,14 +55,26 @@ canvas {
     display: block;
 }
 
-.botao-play {
+.modo-jogo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 60%; /* Ajuste a posição dos botões */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.botao-single, .botao-multiplayer {
     border: none;
     border-radius: 100px;
-    padding: 10px 15px 10px 12px;
+    padding: 10px 15px;
     font-size: 1rem;
     font-weight: 600;
     color: #333;
-    margin-top: 40px;
+    margin-top: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -90,13 +102,6 @@ canvas {
     background-color: #003a07;
 }
 
-@media (max-width: 600px) {
-    .botao-voltar {
-        font-size: 0.8rem;
-        padding: 8px 16px;
-    }
-}
-
 .copyright {
     position: fixed;
     bottom: 10px;
@@ -120,13 +125,14 @@ canvas {
 
 .botao-mute, .botao-historia {
     position: absolute;
-    right: 10px;
     background-color: #004f0c;
     color: white;
     border: none;
-    border-radius: 50%;
-    padding: 10px;
-    font-size: 1.2rem;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
     cursor: pointer;
     z-index: 2;
 }
@@ -144,6 +150,17 @@ canvas {
     background-color: #003a07;
 }
 
+a {
+    text-decoration: none;
+}
+
+.instrucoes {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #fff;
+    display: none;
+}
+
 @media (max-width: 600px) {
     .botao-mute, .botao-historia {
         padding: 8px;
@@ -153,8 +170,8 @@ canvas {
     .botao-historia {
         top: 40px;
     }
-}
-
-a {
-    text-decoration: none;
+    .botao-voltar {
+        font-size: 0.8rem;
+        padding: 8px 16px;
+    }
 }
