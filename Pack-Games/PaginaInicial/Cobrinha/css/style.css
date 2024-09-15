@@ -15,10 +15,14 @@ body {
     justify-content: center;
     flex-direction: column;
     color: white;
+    overflow: hidden;
 }
 
 canvas {
+    width: 570px;
+    height: 570px;
     background-color: #151414;
+    margin-top: 20px;
 }
 
 .pontuacao {
@@ -26,11 +30,14 @@ canvas {
     flex-direction: column;
     align-items: center;
     font-size: 1.8rem;
+    position: relative;
+    z-index: 1;
+    margin-bottom: -10px;
 }
 
 .pontuacao--valor {
     font-weight: 700;
-    font-size: 4.5rem;
+    font-size: 3.5rem;
     display: block;
     margin-top: -10px;
 }
@@ -40,7 +47,7 @@ canvas {
     display: none;
     flex-direction: column;
     align-items: center;
-    z-index: 1;
+    z-index: 2;
 }
 
 .game-over {
@@ -61,10 +68,10 @@ canvas {
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 60%; /* Ajuste a posição dos botões */
+    top: 70%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1;
+    z-index: 3;
 }
 
 .botao-single, .botao-multiplayer {
@@ -83,7 +90,7 @@ canvas {
 }
 
 .botao-voltar {
-    position: absolute;
+    position: fixed;
     top: 20px;
     left: 20px;
     background-color: #004f0c;
@@ -95,7 +102,7 @@ canvas {
     font-weight: 600;
     text-decoration: none;
     cursor: pointer;
-    z-index: 2;
+    z-index: 4;
 }
 
 .botao-voltar:hover {
@@ -106,12 +113,12 @@ canvas {
     position: fixed;
     bottom: 10px;
     right: 10px;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: #ccc;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 5px 10px;
     border-radius: 5px;
-    z-index: 2;
+    z-index: 4;
 }
 
 .copyright a {
@@ -124,7 +131,8 @@ canvas {
 }
 
 .botao-mute, .botao-historia {
-    position: absolute;
+    position: fixed;
+    top: 20px;
     background-color: #004f0c;
     color: white;
     border: none;
@@ -134,16 +142,15 @@ canvas {
     font-weight: 600;
     text-decoration: none;
     cursor: pointer;
-    z-index: 2;
+    z-index: 4;
 }
 
 .botao-mute {
-    top: 10px;
+    right: 20px;
 }
 
 .botao-historia {
-    top: 10px;
-    right: 60px;
+    right: 100px;
 }
 
 .botao-mute:hover, .botao-historia:hover {
@@ -155,23 +162,68 @@ a {
 }
 
 .instrucoes {
-    margin-top: 10px;
+    position: fixed;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
     font-size: 14px;
     color: #fff;
     display: none;
+    z-index: 4;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1024px) {
     .botao-mute, .botao-historia {
         padding: 8px;
         font-size: 1rem;
     }
 
     .botao-historia {
-        top: 40px;
+        right: 60px;
     }
+
     .botao-voltar {
         font-size: 0.8rem;
         padding: 8px 16px;
+    }
+
+    .instrucoes {
+        font-size: 12px;
+    }
+
+    .pontuacao--valor {
+        font-size: 3rem;
+    }
+
+    .modo-jogo {
+        top: 60%;
+    }
+}
+
+@media (max-width: 768px) {
+    .botao-mute, .botao-historia {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+
+    .botao-historia {
+        right: 40px;
+    }
+
+    .botao-voltar {
+        font-size: 0.7rem;
+        padding: 6px 12px;
+    }
+
+    .instrucoes {
+        font-size: 10px;
+    }
+
+    .pontuacao--valor {
+        font-size: 2.5rem;
+    }
+
+    .modo-jogo {
+        top: 70%;
     }
 }

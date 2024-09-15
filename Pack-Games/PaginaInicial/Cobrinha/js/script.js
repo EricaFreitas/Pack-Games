@@ -10,6 +10,11 @@ const audio = new Audio("./assets/audio.mp3");
 const audioFundo = new Audio("./assets/audioFundo.mp3");
 const botaoMute = document.querySelector(".botao-mute");
 const instrucoes = document.querySelector(".instrucoes");
+const tamanho = 30;
+const posicaoInicial = { x: 270, y: 240 };
+let cobra = [posicaoInicial];
+let direcao, ultimaDirecao, loopId;
+let modoJogo = 'single';
 
 let audioMuted = JSON.parse(localStorage.getItem('audioMuted')) || false;
 audio.muted = audioMuted;
@@ -23,10 +28,6 @@ botaoMute.addEventListener("click", () => {
     botaoMute.innerText = audioMuted ? "🔇" : "🔊";
     localStorage.setItem('audioMuted', JSON.stringify(audioMuted));
 });
-
-const tamanho = 30;
-const posicaoInicial = { x: 270, y: 240 };
-let cobra = [posicaoInicial];
 
 const recorde = localStorage.getItem('recorde') || 0;
 const recordeElemento = document.createElement('div');
@@ -60,9 +61,6 @@ const comida = {
     cor: corAleatoria()
 };
 
-let direcao, ultimaDirecao, loopId;
-let modoJogo = 'single';
-
 const desenhoComida = () => {
     const { x, y, cor } = comida;
     contexto.shadowColor = cor;
@@ -77,6 +75,9 @@ const desenhoCobra = () => {
         if (index == cobra.length - 1) {
             contexto.fillStyle = "#008000";
             contexto.fillRect(posicao.x, posicao.y, tamanho, tamanho);
+            contexto.strokeStyle = '#008000';
+            contexto.lineWidth = 2;
+            contexto.strokeRect(posicao.x, posicao.y, tamanho, tamanho);
         } else {
             contexto.fillStyle = "#006400";
             contexto.fillRect(posicao.x, posicao.y, tamanho, tamanho);
@@ -249,7 +250,7 @@ botaoSingle.addEventListener("click", () => {
 
 botaoMultiplayer.addEventListener("click", () => {
     modoJogo = 'multiplayer';
-    instrucoes.innerText = "Jogador 1: Movimentos: Cima -> W / Baixo -> S. \n Jogador 2: Movimentos = Direita -> Seta Direita / Esquerda -> Seta Esquerda \n Trabalhem juntos para conquistar uma grande pontuação!" ;
+    instrucoes.innerText = "Jogador 1: \n \n W / S. \n \n Jogador 2: \n \n Seta Direita -> / <- Seta Esquerda \n \n Trabalhem juntos para conquistar uma grande pontuação!" ;
     instrucoes.style.display = 'block';
     reiniciarJogo();
     gameLoop();
@@ -257,3 +258,12 @@ botaoMultiplayer.addEventListener("click", () => {
 
 menu.style.display = "none";
 instrucoes.style.display = "none";
+document.addEventListener('DOMContentLoaded', (event) => {
+    /*Adiciona a classe no-scroll ao body para travar a rolagem*/
+    document.body.classList.add('no-scroll');
+
+    /*Remove a classe no-scroll ao clicar em um botão específico*/
+    document.querySelector('.botao-voltar').addEventListener('click', () => {
+        document.body.classList.remove('no-scroll');
+    });
+});
