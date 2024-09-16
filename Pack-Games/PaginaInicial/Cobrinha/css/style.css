@@ -103,6 +103,7 @@ canvas {
     text-decoration: none;
     cursor: pointer;
     z-index: 4;
+    font-family: 'Press Start 2P', cursive;
 }
 
 .botao-voltar:hover {
