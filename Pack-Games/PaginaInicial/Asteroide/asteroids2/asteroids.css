@@ -24,6 +24,11 @@ body {
     flex-direction: column; /* Coloca as naves em coluna */
     align-items: flex-end; /* Alinha as vidas ao lado direito */
     padding-left: 20px; /* Espaço entre o canvas e as vidas */
+    border: 1px solid white; /* Adiciona a borda branca ao redor do contêiner */
+    padding: 5px; /* Espaço interno do contêiner */
+    background-color: black; /* Opcional: define a cor de fundo do contêiner */
+    border-radius: 5px; /* Opcional: bordas arredondadas */
+    height: 320px;
 }
 
 .vidas img {

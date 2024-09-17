@@ -3,8 +3,8 @@ const ctx = canvas.getContext('2d');
 
 // Ajusta o tamanho do canvas
 function ajustarCanvas() {
-    canvas.width = 1300;
-    canvas.height = 1230;
+    canvas.width = 1000;
+    canvas.height = 900;
 }
 
 // Carrega e desenha o fundo
@@ -41,6 +41,7 @@ const spanVidas = document.querySelector('.vidas');
 // Atualizar vidas com imagens de naves
 function atualizarVidas() {
     spanVidas.innerHTML = ''; // Limpa o conteúdo atual
+
     for (let i = 0; i < vidas; i++) {
         const img = document.createElement('img');
         img.src = 'img/nav2.png'; // Caminho da imagem da nave
@@ -48,6 +49,7 @@ function atualizarVidas() {
         img.style.marginBottom = '5px'; // Opcional: ajuste para dar espaço entre as naves
         spanVidas.appendChild(img);
     }
+
 }
 
 // Lista de tiros

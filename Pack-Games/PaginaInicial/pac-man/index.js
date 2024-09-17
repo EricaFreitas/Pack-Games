@@ -414,7 +414,6 @@ function atualizarPacman() {
 window.addEventListener("keydown", function (event) {
     const tecla = event.keyCode;
 
-
     if (tecla === 13) { // Verifica se a tecla pressionada é Enter
         if (!startButton.classList.contains('hidden')) {
             startButton.click(); // Simula um clique no botão de iniciar o jogo
@@ -450,7 +449,7 @@ window.addEventListener("keydown", function (event) {
 
         // Inicia o movimento contínuo na direção atual
         intervaloMovimento = setInterval(moverPacman, 150); // 150 ms entre cada movimento, ajuste conforme necessário
-    } else if (tecla === 32) { // Tecla de espaço para mute
+    } else if (tecla === 77) { // Tecla de espaço para mute
         audioControl.toggleMute();
         botaoMute.innerText = audioControl.isMuted ? "🔇" : "🔊";
     }

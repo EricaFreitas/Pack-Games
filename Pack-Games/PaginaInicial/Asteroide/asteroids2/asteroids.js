@@ -1,10 +1,9 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-// Ajusta o tamanho do canvas
 function ajustarCanvas() {
-    canvas.width = 1300;
-    canvas.height = 1230;
+    canvas.width = 1000;
+    canvas.height = 900;
 }
 
 // Carrega e desenha o fundo
