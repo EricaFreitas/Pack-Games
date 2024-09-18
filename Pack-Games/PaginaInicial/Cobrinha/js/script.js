@@ -29,27 +29,11 @@ botaoMute.addEventListener("click", () => {
     localStorage.setItem('audioMuted', JSON.stringify(audioMuted));
 });
 
-let recordeSingle = parseInt(localStorage.getItem('recordeSingle')) || 0;
-let recordeMultiplayer = parseInt(localStorage.getItem('recordeMultiplayer')) || 0;
-
+const recorde = localStorage.getItem('recorde') || 0;
 const recordeElemento = document.createElement('div');
 recordeElemento.classList.add('recorde');
+recordeElemento.innerText = `Recorde: ${recorde}`;
 document.body.insertBefore(recordeElemento, canvas);
-
-const recordeSingleElemento = document.createElement('div');
-recordeSingleElemento.classList.add('recorde-single');
-recordeSingleElemento.innerText = `Recorde Single: ${recordeSingle}`;
-recordeElemento.appendChild(recordeSingleElemento);
-
-const recordeMultiplayerElemento = document.createElement('div');
-recordeMultiplayerElemento.classList.add('recorde-multiplayer');
-recordeMultiplayerElemento.innerText = `Recorde Multiplayer: ${recordeMultiplayer}`;
-recordeElemento.appendChild(recordeMultiplayerElemento);
-
-const atualizarRecorde = () => {
-    recordeSingleElemento.innerText = `Recorde Single: ${recordeSingle}`;
-    recordeMultiplayerElemento.innerText = `Recorde Multiplayer: ${recordeMultiplayer}`;
-};
 
 const adicionarPontuacao = () => {
     pontuacao.innerText = (+pontuacao.innerText + 10).toString().padStart(2, '0');
@@ -146,9 +130,6 @@ document.addEventListener("keydown", ({ key }) => {
     if (key == "h" || key == "H") {
         window.location.href = "historiaCobrinha.html";
     }
-    if (key == "Tab") {
-        modoJogoDiv.style.display = modoJogoDiv.style.display === "none" ? "flex" : "none";
-    }
 });
 
 const moverCobra = () => {
@@ -223,23 +204,12 @@ const gameOver = () => {
     pontuacaoFinal.innerText = pontuacao.innerText;
 
     const pontuacaoAtual = parseInt(pontuacao.innerText, 10);
-
-    if (modoJogo === 'single') {
-        if (pontuacaoAtual > recordeSingle) {
-            recordeSingle = pontuacaoAtual;
-            localStorage.setItem('recordeSingle', recordeSingle);
-            recordeSingleElemento.innerText = `Recorde Single: ${recordeSingle}`;
-        } else {
-            recordeSingleElemento.innerText = `Recorde Single: ${recordeSingle}`;
-        }
-    } else if (modoJogo === 'multiplayer') {
-        if (pontuacaoAtual > recordeMultiplayer) {
-            recordeMultiplayer = pontuacaoAtual;
-            localStorage.setItem('recordeMultiplayer', recordeMultiplayer);
-            recordeMultiplayerElemento.innerText = `Recorde Multiplayer: ${recordeMultiplayer}`;
-        } else {
-            recordeMultiplayerElemento.innerText = `Recorde Multiplayer: ${recordeMultiplayer}`;
-        }
+    const recordeAtual = parseInt(localStorage.getItem('recorde'), 10) || 0;
+    if (pontuacaoAtual > recordeAtual) {
+        localStorage.setItem('recorde', pontuacaoAtual);
+        recordeElemento.innerText = `Recorde: ${pontuacaoAtual}`;
+    } else {
+        recordeElemento.innerText = `Recorde: ${recordeAtual}`;
     }
 
     canvas.style.filter = "blur(2px)";
@@ -252,7 +222,6 @@ const reiniciarJogo = () => {
     canvas.style.filter = "none";
     cobra = [posicaoInicial];
     jogoEmAndamento = true;
-    atualizarRecorde();
 };
 
 const gameLoop = () => {
@@ -273,7 +242,7 @@ const gameLoop = () => {
 
 botaoSingle.addEventListener("click", () => {
     modoJogo = 'single';
-    instrucoes.innerHTML = "Use as setas para mover a cobra.<br><img src='./setas.png' alt='Setas' style='width: 120px; height: 100px;'>";
+    instrucoes.innerText = "Use as setas para mover a cobra.";
     instrucoes.style.display = 'block';
     reiniciarJogo();
     gameLoop();
@@ -281,7 +250,7 @@ botaoSingle.addEventListener("click", () => {
 
 botaoMultiplayer.addEventListener("click", () => {
     modoJogo = 'multiplayer';
-    instrucoes.innerHTML = "Jogador 1:<br><img src='./ws.png' alt='W e S' class='ws' style='width: 120px; height: 100px;'><br>Jogador 2:<br><img src='./setasDE.png' alt='Setas Direita e Esquerda' class='setasDE' style='width: 120px; height: 100px;'><br>Trabalhem juntos para conquistar uma grande pontuação!";
+    instrucoes.innerText = "Jogador 1: \n \n W / S. \n \n Jogador 2: \n \n Seta Direita -> / <- Seta Esquerda \n \n Trabalhem juntos para conquistar uma grande pontuação!" ;
     instrucoes.style.display = 'block';
     reiniciarJogo();
     gameLoop();
@@ -290,14 +259,11 @@ botaoMultiplayer.addEventListener("click", () => {
 menu.style.display = "none";
 instrucoes.style.display = "none";
 document.addEventListener('DOMContentLoaded', (event) => {
-    /* Adiciona a classe no-scroll ao body para travar a rolagem */
+    /*Adiciona a classe no-scroll ao body para travar a rolagem*/
     document.body.classList.add('no-scroll');
 
-    /* Remove a classe no-scroll ao clicar em um botão específico */
+    /*Remove a classe no-scroll ao clicar em um botão específico*/
     document.querySelector('.botao-voltar').addEventListener('click', () => {
         document.body.classList.remove('no-scroll');
     });
-
-    /* Atualiza os recordes ao carregar a página */
-    atualizarRecorde();
 });

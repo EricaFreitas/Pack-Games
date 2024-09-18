@@ -55,6 +55,7 @@ body {
     text-decoration: none;
     cursor: pointer;
     z-index: 2;
+    font-family: 'Press Start 2P', cursive;
 }
 
 .botao-voltar:hover {

@@ -414,6 +414,7 @@ function atualizarPacman() {
 window.addEventListener("keydown", function (event) {
     const tecla = event.keyCode;
 
+
     if (tecla === 13) { // Verifica se a tecla pressionada é Enter
         if (!startButton.classList.contains('hidden')) {
             startButton.click(); // Simula um clique no botão de iniciar o jogo
@@ -449,7 +450,7 @@ window.addEventListener("keydown", function (event) {
 
         // Inicia o movimento contínuo na direção atual
         intervaloMovimento = setInterval(moverPacman, 150); // 150 ms entre cada movimento, ajuste conforme necessário
-    } else if (tecla === 77) { // Tecla de espaço para mute
+    } else if (tecla === 32) { // Tecla de espaço para mute
         audioControl.toggleMute();
         botaoMute.innerText = audioControl.isMuted ? "🔇" : "🔊";
     }
@@ -806,7 +807,7 @@ function iniciarJogo() {
     fantasmasMovendo = false; // Fantasmas não se movem ainda 
     pontos.length = 0;
     fantasmas.length = 0;
-    vidas = 5; // Ajuste a quantidade de vidas conforme necessário
+    vidas = 1; // Ajuste a quantidade de vidas conforme necessário
     gameState = 'playing'; // Reseta o estado do jogo ao iniciar
 
     // Esconder o botão de reinício
@@ -855,6 +856,9 @@ function iniciarJogo() {
 
 
 function desenharGameOver() {
+
+    pacman.x = 9999;
+    pacman.y = 9999;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);

@@ -1,65 +1,105 @@
 body {
-    font-family: Arial, sans-serif;
-    background-image: url('fundo.jpg');
-    background-size: cover;
-    background-position: center;
-    margin: 0;
-    padding: 0;
+    background-color: black;
+    color: white;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: #fff;
+}
+
+#logo {
+    width: 45%;
+    position: absolute; 
+    left: 35rem;
+    top: 5rem;  
+}
+
+.asteroids{
+    position: absolute;
+    left: 80rem;
+    top: 21rem;
+}
+
+.cobra{
+    position: absolute;
+    left: 50rem;
+    top: 21rem;
+}
+
+.pacman{
+    position: absolute;
+    left: 20rem;
+    top: 21rem;
+}
+
+.pong{
+    position: absolute;
+    left: 35rem;
+    top: 38rem;
+}
+
+.tetris{
+    position: absolute;
+    left: 65rem;
+    top: 38rem;
+}
+
+.asteroids, .cobra, .pacman, .pong, .tetris{
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    transition: border-color 0.3s, padding 0.3s;
+}
+
+.asteroids:hover, .cobra:hover, .pacman:hover, .pong:hover, .tetris:hover {
+    border-color: orange;
+    padding: 14px;
+}
+
+a{
+    text-decoration: none;
+    color: white;
     font-family: 'Press Start 2P', cursive;
 }
 
-.container {
-    text-align: center;
-    background: rgba(78, 76, 76, 0.8);
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    width: 80%;
-    max-width: 600px;
+.pacman-animacao {
+    position: absolute;
+    top: 50%; /* Ajuste vertical conforme necessário */
+    left: -550px; /* Começa fora da tela à esquerda */
+    width: auto; /* Ajuste conforme necessário */
+    height: 100px; /* Ajuste conforme necessário */
+    z-index: 9999; /* Garante que a animação fique acima de outros elementos */
+    display: flex; /* Usa flexbox para alinhar os fantasmas horizontalmente */
+    align-items: center; /* Alinha verticalmente ao centro */
+    transition: left 7s linear; /* Ajusta o tempo de transição para 7 segundos */
 }
 
-h1 {
-    color: #000000;
+.pacman-animacao img {
+    width: 100px; /* Ajuste o tamanho conforme necessário */
+    z-index: 1; /* Garante que os fantasmas estejam atrás do Pac-Man */
 }
 
-.game-selection {
+.pacman-animacao2 {
+    position: absolute;
+    top: 50%;
+    right: -550px; /* Começa fora da tela à direita */
+    width: auto;
+    height: 100px;
     display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
+    align-items: center;
+    transition: right 7s linear; /* Ajuste o tempo de transição para 7 segundos */
 }
 
-.game {
-    background: #5f5f5f;
-    border: 2px solid #5f5f5f;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgb(0, 0, 0);
-    overflow: hidden;
-    width: 45%;
-    transition: transform 0.2s;
-}
-
-.game img {
-    width: 100%;
+#assustado {
+    width: 100px;
     height: auto;
+    z-index: 1;
 }
 
-.game p {
-    margin: 10px 0;
-    font-size: 18px;
-    color: #000000;
+#pacman-animacao2 {
+    width: 100px;
+    height: 100px;
+    transform: scaleX(-1); 
 }
 
-.game a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
-
-.game:hover {
-    transform: scale(1.05);
+.pacman-animacao2 img:last-child {
+    margin-left: 0;
 }

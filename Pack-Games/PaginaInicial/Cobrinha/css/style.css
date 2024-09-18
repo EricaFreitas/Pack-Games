@@ -42,18 +42,6 @@ canvas {
     margin-top: -10px;
 }
 
-.recordes {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.recorde-single, .recorde-multiplayer {
-    font-size: 1.2rem;
-    font-weight: 500;
-}
-
 .menu-screen {
     position: absolute;
     display: none;
@@ -87,13 +75,12 @@ canvas {
 }
 
 .botao-single, .botao-multiplayer {
-    background-color: #004f0c;
-    color: white;
     border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
+    border-radius: 100px;
+    padding: 10px 15px;
     font-size: 1rem;
     font-weight: 600;
+    color: #333;
     margin-top: 20px;
     display: flex;
     align-items: center;
@@ -157,7 +144,6 @@ canvas {
     text-decoration: none;
     cursor: pointer;
     z-index: 4;
-    font-family: 'Press Start 2P', cursive;
 }
 
 .botao-mute {
@@ -177,7 +163,6 @@ a {
 }
 
 .instrucoes {
-    text-align: center;
     position: fixed;
     top: 50%;
     left: 10px;
@@ -186,20 +171,7 @@ a {
     color: #fff;
     display: none;
     z-index: 4;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 560px;
-  }
-
-  .ws {
-    margin-left: 0;
-  }
-
-  .setasDE {
-    margin-top: 0;
-  }
+}
 
 @media (max-width: 1024px) {
     .botao-mute, .botao-historia {
