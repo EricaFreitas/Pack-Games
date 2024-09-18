@@ -62,30 +62,30 @@ a{
 
 .pacman-animacao {
     position: absolute;
-    top: 50%; /* Ajuste vertical conforme necessário */
-    left: -550px; /* Começa fora da tela à esquerda */
-    width: auto; /* Ajuste conforme necessário */
-    height: 100px; /* Ajuste conforme necessário */
-    z-index: 9999; /* Garante que a animação fique acima de outros elementos */
-    display: flex; /* Usa flexbox para alinhar os fantasmas horizontalmente */
-    align-items: center; /* Alinha verticalmente ao centro */
-    transition: left 7s linear; /* Ajusta o tempo de transição para 7 segundos */
+    top: 50%;
+    left: -550px; 
+    width: auto;
+    height: 100px; 
+    z-index: 9999;
+    display: flex; 
+    align-items: center; 
+    transition: left 7s linear;
 }
 
 .pacman-animacao img {
-    width: 100px; /* Ajuste o tamanho conforme necessário */
-    z-index: 1; /* Garante que os fantasmas estejam atrás do Pac-Man */
+    width: 100px;
+    z-index: 1;
 }
 
 .pacman-animacao2 {
     position: absolute;
     top: 50%;
-    right: -550px; /* Começa fora da tela à direita */
+    right: -550px;
     width: auto;
     height: 100px;
     display: flex;
     align-items: center;
-    transition: right 7s linear; /* Ajuste o tempo de transição para 7 segundos */
+    transition: right 7s linear;
 }
 
 #assustado {
